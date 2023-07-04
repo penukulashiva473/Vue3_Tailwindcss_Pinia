@@ -15,13 +15,30 @@
             Project with Vue3 , Tailwind and Pinia
           </h1>
         </div>
+        <div></div>
+        <div>
+          <form @submit.prevent="handleSubmit">
+            <input
+              class="px-4"
+              type="text"
+              placeholder="add ...    "
+              v-model="newTask"
+            />
+            <button class="bg-green-900 ml-4">Add</button>
+          </form>
+        </div>
         <div v-for="task in taskStore.tasks" :key="task.id">
           <div class="grid gap-6 grid-flow-col auto-cols-4">
             <div>{{ task.id }}</div>
             <div>{{ task.title }}</div>
             <div>{{ task.isFav }}</div>
             <div>
-              <button class="bg-red-500 text-white">delete</button>
+              <button
+                class="bg-red-500 text-white"
+                @click="taskStore.deleteTask(task.id)"
+              >
+                delete
+              </button>
             </div>
           </div>
         </div>
@@ -38,12 +55,24 @@
 
 <script>
 import { useTaskStore } from "./stores/TaskStore";
+import { ref } from "vue";
 
 export default {
   setup() {
     const taskStore = useTaskStore();
+    const newTask = ref("");
+    const handleSubmit = () => {
+      if (newTask.value.length > 0) {
+        taskStore.addTask({
+          title: newTask.value,
+          isFav: false,
+          id: Math.floor(Math.random() * 1000000),
+        });
+        newTask.value = "";
+      }
+    };
 
-    return { taskStore };
+    return { taskStore, handleSubmit, newTask };
   },
 };
 </script>
