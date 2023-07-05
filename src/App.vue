@@ -19,15 +19,25 @@
         <div>
           <form @submit.prevent="handleSubmit">
             <input
-              class="px-4"
+              class="px-4 border border-indigo-600"
               type="text"
               placeholder="add ...    "
               v-model="newTask"
+              style="width: 400px"
             />
-            <button class="bg-green-900 ml-4">Add</button>
+            <button
+              class="bg-indigo-500 text-white rounded ml-5 p-1"
+              style="width: 100px"
+            >
+              Add
+            </button>
           </form>
         </div>
-        <div v-for="task in taskStore.tasks" :key="task.id">
+        <div
+          v-for="task in taskStore.tasks"
+          :key="task.id"
+          class="border border-indigo-600 p-4"
+        >
           <div class="grid gap-6 grid-flow-col auto-cols-4">
             <div>{{ task.id }}</div>
             <div>{{ task.title }}</div>
@@ -36,6 +46,7 @@
               <button
                 class="bg-red-500 text-white"
                 @click="taskStore.deleteTask(task.id)"
+                style="width: 100px"
               >
                 delete
               </button>
